@@ -3,7 +3,7 @@ import pandas as pd
 from charts import price_histogram, price_box, availability_bar, segment_distribution, segment_avg_price
 from insights import generate_insights
 from utils import run_scraper, add_price_segment
-
+import os
 
 
 
@@ -12,8 +12,14 @@ st.set_page_config("Books Analytics", layout="wide")
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("../data/books.csv")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(base_dir, "..", "books.csv")
 
+    if not os.path.exists(csv_path):
+        st.error("books.csv not found in project root.")
+        st.stop()
+
+    return pd.read_csv(csv_path)
 df = load_data()
 df = add_price_segment(df)
 st.title("📚 Books Scraper & Analytics Platform")

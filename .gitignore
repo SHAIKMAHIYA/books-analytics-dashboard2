@@ -3,4 +3,5 @@ __pycache__/
 .venv/
 venv/
 .env
-data/books.csv
+# data/*.csv   (commented for deployment)
+
